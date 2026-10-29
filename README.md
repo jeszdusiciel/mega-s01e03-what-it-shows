@@ -1,3 +1,18 @@
+# S01E03 · incident 4471 review
+
+Two accepted tickets cover 412 unique reports: [parser · 379](https://github.com/jeszdusiciel/mega-s01e03-what-it-shows/issues/1)
+and [hint · 33](https://github.com/jeszdusiciel/mega-s01e03-what-it-shows/issues/2).
+The course's engineering update closes #4471 on 5 October: parser fixed;
+hint won't fix because booking-v3 was retired. These are distinct outcomes.
+
+- [Signed review source](src/routes/kb/incidents/4471-review/+page.svx)
+- [Rendered desk page](rendered/kb/incidents/4471-review/index.html)
+- [Replacement triage decision](src/routes/kb/decisions/0002-dedupe-by-cause/+page.svx)
+- [Auditable report assignments](evidence/assignments.json)
+- [Build instructions](BUILDING.md)
+
+The original export's README follows.
+
 # kb — the support knowledge base
 
 **kb** = knowledge base. What the support desk knows about how our products break, written

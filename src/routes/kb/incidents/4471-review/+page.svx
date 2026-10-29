@@ -2,7 +2,7 @@
 layout: runbook
 title: '#4471 review · two date failures behind one ticket'
 owner: Kajetan Szyba
-status: reviewed
+status: closed · mixed outcomes
 reviewed: '2026-10-29'
 signature: 'Kajetan Szyba · jeszdusiciel · S01E03 · 2026-10-29'
 ---
@@ -17,6 +17,17 @@ signature: 'Kajetan Szyba · jeszdusiciel · S01E03 · 2026-10-29'
 The [original incident](/kb/incidents/4471) says “one issue, one fix queued”. The
 rendered cause table disagrees. A month-first parser and a misleading form hint need
 separate tickets and separate fixes. A queued parser fix does not fix the hint.
+
+## Engineering update · 5 October 2026
+
+The course's engineering update reports **#4471 closed 05 oct**:
+
+- **Parser — fixed:** `fix(dates): parse dd/mm for eu locales`. [Issue 1](https://github.com/jeszdusiciel/mega-s01e03-what-it-shows/issues/1) closes as completed.
+- **Hint — won't fix:** `booking-v3 form retired`. [Issue 2](https://github.com/jeszdusiciel/mega-s01e03-what-it-shows/issues/2) closes as not planned. Retirement removes that form; it is not a hint correction.
+
+The analysis below describes the earlier export. The received/merged timeline cannot
+verify either engineering outcome: the export stops before the update. These closure
+reasons come from the course page, not from a production test performed here.
 
 ## What the data shows
 
@@ -61,7 +72,8 @@ and send timestamps. Do not invent a third fix from a common subject or a vague 
 Received time and merge time describe different events. The July merge spike does not
 date the start of the failure, and “known” does not mean fixed. Keep both tickets open,
 route new reports by the failing path, and monitor received counts separately from
-merge counts. Recheck a fresh export before treating this snapshot as current.
+merge counts. The update above now closes the tickets for different reasons; retain
+their counts and evidence. Recheck a fresh export before treating this snapshot as current.
 
 ## Change what the desk does next
 
@@ -76,7 +88,8 @@ form and channel, and compare the failing path. Same subject is neither necessar
 sufficient. Missing context or contradictory symptoms require investigation, not an
 automatic merge. Reconcile counts after each new export, keeping one ID per report.
 
-This review covers the supplied export through 4 October 2026. It does not claim that
-production is repaired or that later reports are already classified.
+This review covers the supplied export through 4 October 2026 and records the course's
+5 October engineering update. Later reports and independent production verification
+are outside the evidence supplied here.
 
 <RenderStamp {signature} />
