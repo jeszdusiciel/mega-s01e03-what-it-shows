@@ -1,0 +1,82 @@
+---
+layout: runbook
+title: '#4471 review · two date failures behind one ticket'
+owner: Kajetan Szyba
+status: reviewed
+reviewed: '2026-10-29'
+signature: 'Kajetan Szyba · jeszdusiciel · S01E03 · 2026-10-29'
+---
+
+<script>
+  import CauseTable from '#lib/kb/CauseTable.svelte';
+  import QueueTimeline from '#lib/kb/QueueTimeline.svelte';
+  import ReviewEvidence from '#lib/kb/ReviewEvidence.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+</script>
+
+The [original incident](/kb/incidents/4471) says “one issue, one fix queued”. The
+rendered cause table disagrees. A month-first parser and a misleading form hint need
+separate tickets and separate fixes. A queued parser fix does not fix the hint.
+
+## What the data shows
+
+<CauseTable ticket={4471} />
+
+Counts use unique report IDs merged into this ticket, then join each report to its
+tenant's locale and booking-form version. Browser locale and intake tags are guesses,
+not the tenant's date convention. The table is computed when this page is built.
+
+<ReviewEvidence />
+
+## Two problems, two fixes
+
+**Parser:** the shared parser reads month first even for day-first tenants. For example,
+R-41200 describes a 7 April reminder arriving for 4 July. Parse using the tenant's
+explicit format, reject invalid dates, and preserve date-only values without a timezone
+conversion. Cover both app and email paths and both booking-form versions in regression
+checks. The parser ticket includes the five uncertain reports listed below as filed
+associations, not five proven instances of month/day reversal.
+
+**Hint:** booking-v3 shows `MM/DD/YYYY` to day-first tenants while its form reads the
+tenant's day-first format. Users following the hint get the wrong date even if the
+shared parser is fixed. Generate the displayed hint and the form's interpretation from
+one tenant format. Check v3 form submissions separately from v2 forms and app/email.
+
+The public repository's `tickets/parser.md` and `tickets/hint.md` hold the ticket bodies;
+each lists all assigned report IDs so its count can be audited.
+
+## Read the uncertainty, too
+
+The five reports in `desk-notes.json` do not establish another shared cause. R-41202
+and R-41620 describe a one-day shift, R-41344 differs between Lisbon and Toronto,
+R-41209 affects June, and R-41236 claims an invite preceded its booking. They are filed
+under parser by the supplied tenant/channel rule. That rule does not prove their cause.
+Keep the originals attached and investigate timezone handling, stored dates, event IDs,
+and send timestamps. Do not invent a third fix from a common subject or a vague symptom.
+
+## The queue is still working
+
+<QueueTimeline ticket={4471} />
+
+Received time and merge time describe different events. The July merge spike does not
+date the start of the failure, and “known” does not mean fixed. Keep both tickets open,
+route new reports by the failing path, and monitor received counts separately from
+merge counts. Recheck a fresh export before treating this snapshot as current.
+
+## Change what the desk does next
+
+The accepted [decision 0001](/kb/decisions/0001-dedupe-by-subject) matched subjects alone.
+Its consequences mention splitting one bug across subjects but omit the reverse:
+unrelated bugs can share a subject and lose their own ticket. Its review date is old;
+the live explorer already uses cause, not subject.
+
+Use [decision 0002](/kb/decisions/0002-dedupe-by-cause), which replaces that rule without
+rewriting the accepted historical record. Read the report, resolve the tenant, locale,
+form and channel, and compare the failing path. Same subject is neither necessary nor
+sufficient. Missing context or contradictory symptoms require investigation, not an
+automatic merge. Reconcile counts after each new export, keeping one ID per report.
+
+This review covers the supplied export through 4 October 2026. It does not claim that
+production is repaired or that later reports are already classified.
+
+<RenderStamp {signature} />

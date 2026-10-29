@@ -1,0 +1,1 @@
+{"name":"s01e03-support-kb","private":true,"type":"module","scripts":{"build":"node scripts/build.mjs"},"devDependencies":{"svelte":"^5.0.0","mdsvex":"^0.12.0"}}

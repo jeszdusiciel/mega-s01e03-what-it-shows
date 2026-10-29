@@ -1,0 +1,40 @@
+---
+layout: runbook
+title: 'Triage: duplicate reports'
+owner: support desk
+status: current
+reviewed: '2026-10-29'
+---
+
+<script>
+  import DedupeExplorer from '#lib/kb/DedupeExplorer.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+</script>
+
+A busy morning brings hundreds of reports about the same thing. We keep one ticket per issue
+and merge every duplicate into it, so engineering sees one thread with a count.
+
+## The rule
+
+A report is a duplicate only when evidence supports the **same failing path**
+([decision 0002](/kb/decisions/0002-dedupe-by-cause)). This replaces the subject-only
+rule in the preserved historical [decision 0001](/kb/decisions/0001-dedupe-by-subject).
+
+1. Read the body and look up the tenant's locale, form version and channel.
+2. Compare the failing path with an open ticket, checking contradictory symptoms.
+3. Merge only a supported match. Otherwise keep a separate ticket or investigate missing context.
+4. Count unique report IDs; preserve received and merged timestamps separately.
+
+<Callout>
+Same subjects can hide different failures; different subjects can describe the same one.
+The #4471 review shows how subject-only merging hid the booking-form hint problem.
+</Callout>
+
+## Try it
+
+<DedupeExplorer />
+
+## When you are unsure
+
+Investigate. Unknown tenants and contradictory bodies are not established duplicates.
+See the [#4471 review](/kb/incidents/4471-review) for evidence and the two ticket paths.

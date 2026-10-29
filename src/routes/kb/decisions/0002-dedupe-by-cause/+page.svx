@@ -1,0 +1,45 @@
+---
+layout: runbook
+title: '0002 · Triage by failing path, not subject'
+owner: Kajetan Szyba
+status: adopted for this review
+reviewed: '2026-10-29'
+signature: 'Kajetan Szyba · jeszdusiciel · S01E03 · 2026-10-29'
+---
+
+<script>
+  import DedupeExplorer from '#lib/kb/DedupeExplorer.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+</script>
+
+Replaces [decision 0001](/kb/decisions/0001-dedupe-by-subject) for this review. The old
+accepted record is preserved. The [incident review](/kb/incidents/4471-review) shows
+why matching subjects merged separate failures into one ticket.
+
+## Decision
+
+Read the body and identify tenant, tenant locale, form version and channel. Merge only
+when evidence supports the same failing path. Compare the supplied cause logic with
+the symptoms; do not silently override contradictory evidence. Keep unresolved cases
+for investigation. Browser locale, intake tag and subject alone cannot establish cause.
+
+Count unique report IDs. Preserve received and merged timestamps independently. Keep
+one engineering issue per confirmed problem and link related issues rather than merging
+them just because they produce a similar symptom.
+
+## What the running logic already distinguishes
+
+<DedupeExplorer />
+
+The same tenant on app versus email can share a cause despite different subjects.
+The same subject and tenant on form versus app can have different causes. Identical
+subjects on different tenants' forms can differ by form version. Unknown tenants do
+not have an established cause and must not be merged on that basis.
+
+## Consequences
+
+Triage takes more reading and tenant lookup. It keeps a smaller issue from disappearing
+inside a larger ticket. New reports continue to arrive: recheck the data and ticket
+assignments instead of treating a “known” label as evidence that the failures stopped.
+
+<RenderStamp {signature} />
